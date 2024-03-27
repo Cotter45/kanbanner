@@ -22,6 +22,7 @@ export interface IKanbanColumn<T> {
 }
 
 interface IKanbanProps<T> {
+  device: "Mobile" | "Tablet" | "Desktop" | undefined;
   columns: IKanbanColumn<T>[];
   setColumns: React.Dispatch<React.SetStateAction<IKanbanColumn<T>[]>>;
   handleAddColumn: (title: string) => Promise<void>;
@@ -30,6 +31,7 @@ interface IKanbanProps<T> {
 }
 
 function Kanban<T>({
+  device,
   columns,
   setColumns,
   handleAddColumn,
@@ -45,15 +47,19 @@ function Kanban<T>({
   const [activeItem, setActiveItem] = useState<any>(null);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
+  const determineSensor = () => {
+    if (device === "Mobile" || device === "Tablet") {
+      return TouchSensor;
+    } else {
+      return PointerSensor;
+    }
+  };
+
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(determineSensor(), {
       activationConstraint: {
+        delay: 250,
         distance: 8,
-      },
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 300,
         tolerance: 8,
       },
     })
@@ -93,16 +99,18 @@ function Kanban<T>({
   };
 
   const onDragStart = (event: any) => {
-    const { active } = event;
-    const id = active?.id;
+    setTimeout(() => {
+      const { active } = event;
+      const id = active?.id;
 
-    if (id) {
-      const item = columns
-        .map((column) => column.items)
-        .flat()
-        .find((item) => item.id === id);
-      setActiveItem(item);
-    }
+      if (id) {
+        const item = columns
+          .map((column) => column.items)
+          .flat()
+          .find((item) => item.id === id);
+        setActiveItem(item);
+      }
+    }, 1000);
   };
 
   const addColumn = async () => {
@@ -121,7 +129,7 @@ function Kanban<T>({
       onDragEnd={onDragEnd}
       onDragStart={onDragStart}
     >
-      <div className="h-full flex gap-2">
+      <div className="h-full flex gap-4">
         {columns.map((column) => (
           <KanbanCol<T>
             key={column.id}
