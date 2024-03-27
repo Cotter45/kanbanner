@@ -22,7 +22,6 @@ export interface IKanbanColumn<T> {
 }
 
 interface IKanbanProps<T> {
-  device: "Mobile" | "Tablet" | "Desktop" | undefined;
   columns: IKanbanColumn<T>[];
   setColumns: React.Dispatch<React.SetStateAction<IKanbanColumn<T>[]>>;
   handleAddColumn: (title: string) => Promise<void>;
@@ -31,7 +30,6 @@ interface IKanbanProps<T> {
 }
 
 function Kanban<T>({
-  device,
   columns,
   setColumns,
   handleAddColumn,
@@ -47,17 +45,19 @@ function Kanban<T>({
   const [activeItem, setActiveItem] = useState<any>(null);
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const determineSensors = (
-    device: "Mobile" | "Tablet" | "Desktop" | undefined
-  ) => {
-    if (device === "Mobile" || device === "Tablet") {
-      return TouchSensor;
-    } else {
-      return PointerSensor;
-    }
-  };
-
-  const sensors = useSensors(useSensor(determineSensors(device)));
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 300,
+        tolerance: 8,
+      },
+    })
+  );
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;

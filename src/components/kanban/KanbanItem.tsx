@@ -40,7 +40,7 @@ function KanbanItem<T>({ item, renderItem }: KanbanItemProps<T>) {
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
     transition,
-    touchAction: "manipulation",
+    // touchAction: "manipulation",
   };
 
   const randomComment = useMemo(() => {

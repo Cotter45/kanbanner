@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { Kanban, type IKanbanColumn } from "@/components/kanban";
-import { useDeviceDetection } from "@/hooks/useDeviceDetection";
 
 const fiveHundredRandomTasks = Array.from({ length: 500 }, (_, i) => ({
   id: i.toString(),
@@ -21,8 +20,6 @@ const fiveHundredMoreRandomTasks = Array.from({ length: 1500 }, (_, i) => ({
 }));
 
 export default function Home() {
-  const device = useDeviceDetection();
-
   const [columns, setColumns] = useState<IKanbanColumn<any>[]>([
     {
       id: "column-1",
@@ -79,7 +76,6 @@ export default function Home() {
   return (
     <main className="relative no-scrollbar flex overflow-auto w-full h-[100dvh] flex-col py-5 px-2 bg-[#0C1117] text-white">
       <Kanban
-        device={device}
         columns={columns}
         setColumns={setColumns}
         handleAddColumn={handleAddColumn}
