@@ -58,7 +58,7 @@ function Kanban<T>({
   const sensors = useSensors(
     useSensor(determineSensor(), {
       activationConstraint: {
-        delay: 250,
+        delay: device === "Mobile" || device === "Tablet" ? 250 : 0,
         distance: 8,
         tolerance: 8,
       },
@@ -99,18 +99,16 @@ function Kanban<T>({
   };
 
   const onDragStart = (event: any) => {
-    setTimeout(() => {
-      const { active } = event;
-      const id = active?.id;
+    const { active } = event;
+    const id = active?.id;
 
-      if (id) {
-        const item = columns
-          .map((column) => column.items)
-          .flat()
-          .find((item) => item.id === id);
-        setActiveItem(item);
-      }
-    }, 1000);
+    if (id) {
+      const item = columns
+        .map((column) => column.items)
+        .flat()
+        .find((item) => item.id === id);
+      setActiveItem(item);
+    }
   };
 
   const addColumn = async () => {
@@ -165,7 +163,9 @@ function Kanban<T>({
 
       <DragOverlay>
         {activeItem ? (
-          <div>{renderItem(activeItem)}</div>
+          <div className="border border-emerald-700 rounded-md opacity-75">
+            {renderItem(activeItem)}
+          </div>
         ) : (
           <div className="invisible">invisible</div>
         )}

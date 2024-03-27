@@ -50,7 +50,7 @@ function KanbanItem<T>({ item, renderItem }: KanbanItemProps<T>) {
   if (typeof item.id === "string" && item.id.includes("placeholder")) {
     return (
       <li
-        className="text-sm text-center pt-8"
+        className="text-sm text-center pt-8 !select-none"
         ref={setNodeRef}
         style={style}
         {...attributes}

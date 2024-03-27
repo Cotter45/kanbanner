@@ -43,7 +43,7 @@ function KanbanCol<T>({
   };
 
   return (
-    <article className="relative overflow-auto flex flex-col gap-2 min-w-[350px] min-h-[300px] bg-white dark:bg-[#02040A] border border-zinc-200 dark:border-zinc-600 rounded-md">
+    <article className="!select-none relative overflow-auto flex flex-col gap-2 min-w-[350px] min-h-[300px] bg-white dark:bg-[#02040A] border border-zinc-200 dark:border-zinc-600 rounded-md">
       <div className="sticky top-0 left-0 border-b border-zinc-400 dark:border-zinc-600 bg-white dark:bg-[#02040A] shadow-md shadow-black dark:shadow-zinc-800 px-2 py-4 z-[1000] flex items-center justify-between">
         <h3>{title}</h3>
 
