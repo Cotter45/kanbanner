@@ -11,6 +11,7 @@ import {
   useSensor,
   useSensors,
   DragOverlay,
+  TouchSensor,
 } from "@dnd-kit/core";
 
 import { KanbanCol } from "./KanbanCol";
@@ -47,7 +48,8 @@ function Kanban<T>({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
+    useSensor(TouchSensor)
   );
 
   const onDragEnd = (event: DragEndEvent) => {
